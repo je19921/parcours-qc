@@ -42,8 +42,8 @@ const T = {
   fr: {
     nav1: "Parcours", nav2: "Régions", nav3: "Comment ça marche",
     cta: "Voir les parcours", cta2: "Nous écrire",
-    notice: "<b>Registre en construction.</b> 70 des 123 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.",
-    eyebrow: "123 parcours · 70 réservables en ligne",
+    notice: "<b>Registre en construction.</b> 95 des 120 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.",
+    eyebrow: "120 parcours · 95 réservables en ligne",
     h1a: "Chaque parcours", h1b: "du Québec.", h1c: "Sur une seule carte.",
     lede: "Où ils sont, dans quelle région, et comment joindre le club. <b>Les départs en direct viendront quand les systèmes de réservation seront branchés — pas avant.</b>",
     go: "Chercher", ph: "Code postal, ville ou parcours",
@@ -59,7 +59,7 @@ const T = {
     eb5: "Ce qui s'en vient", h2e: "Et ce qui <em>n'est pas encore là.</em>",
     l5: "Écrit noir sur blanc pour que personne ne se fasse d'idées — y compris nous.",
     eb6: "Vous gérez un club ?", h2d: "Il manque votre parcours. <em>Dites-le-nous.</em>",
-    l6: "Le registre en compte 123 sur environ 350. Une correction, un ajout, un retrait : c'est traité dans la semaine.",
+    l6: "Le registre en compte 120 sur environ 350. Une correction, un ajout, un retrait : c'est traité dans la semaine.",
     foot: "Le répertoire des terrains de golf du Québec. Indépendant, sans lien avec Golf Québec ni avec aucun club.",
     note: "Noms, villes et régions : réels. Positions : approximatives — vérifiez toujours l'adresse auprès du club. Les liens de réservation ont été vérifiés un par un le 24 août 2026; un club peut changer de plateforme sans préavis. Les vues aériennes sont des illustrations générées, pas des photos des parcours. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données n'existeront ici que branchées à une vraie source.",
     all: "Toutes les régions", count: (n) => `${n} parcours`, none: "Aucun parcours ne correspond.",
@@ -67,10 +67,10 @@ const T = {
     steps: [
       ["Chercher", "Code postal (J4B), ville, région ou nom du club. Les résultats se classent par distance réelle depuis le point cherché."],
       ["Situer", "La carte montre où se trouve chaque parcours au Québec. Position approximative : bonne pour se repérer, à confirmer auprès du club."],
-      ["Réserver", "Pour 70 des 123 parcours, un clic ouvre le vrai système de réservation du club — GGGolf ou Chronogolf — dans un nouvel onglet. Pour les autres, la fiche Google du club."]
+      ["Réserver", "Pour 95 des 120 parcours, un clic ouvre le vrai système de réservation du club — GGGolf ou Chronogolf — dans un nouvel onglet. Pour les autres, la fiche Google du club."]
     ],
     roadmap: [
-      ["Compléter le registre", "123 parcours sur environ 350. La suite : recouper OpenStreetMap, Google Places et les répertoires de Golf Québec et de l'ACGQ, puis vérifier chaque fiche à la main."],
+      ["Compléter le registre", "120 parcours sur environ 350. La suite : recouper OpenStreetMap, Google Places et les répertoires de Golf Québec et de l'ACGQ, puis vérifier chaque fiche à la main."],
       ["Voir les heures ici", "GGGolf (35 parcours) et Chronogolf (32) se partagent le Québec. Se brancher à GGGolf en premier — c'est une entreprise québécoise. Rien ne s'affichera avant que la donnée soit réelle et fraîche."],
       ["Réserver en un clic", "Une fois les disponibilités connues, le lien mènera directement au bon créneau sur le système du club. Le paiement restera toujours chez le club."]
     ],
@@ -78,6 +78,7 @@ const T = {
     aMaps: "Ouvrir dans Google Maps", aMapsSub: "Adresse, téléphone, avis, heures",
     aBook: "Réserver un départ", aBookSub: (p) => p ? `Système de réservation du club · ${p}` : "Système de réservation du club",
     aSearch: "Chercher les départs", aSearchSub: "Recherche Google : réservation en ligne du club",
+    aCall: "Appeler le club", aCallSub: "Ligne directe",
     aDir: "Itinéraire", aDirSub: "Depuis votre position",
     pendingT: "Réservation en ligne : non trouvée",
     pendingP: "Nous n'avons pas pu confirmer de système de réservation en ligne pour ce club. Passez par sa fiche Google — téléphone et site officiel s'y trouvent.",
@@ -88,8 +89,8 @@ const T = {
   en: {
     nav1: "Courses", nav2: "Regions", nav3: "How it works",
     cta: "Browse courses", cta2: "Get in touch",
-    notice: "<b>Registry under construction.</b> 70 of 123 courses have a hand-verified booking link. No prices, ratings or tee times are shown: that data isn't wired to a real source yet.",
-    eyebrow: "123 courses · 70 bookable online",
+    notice: "<b>Registry under construction.</b> 95 of 120 courses have a hand-verified booking link. No prices, ratings or tee times are shown: that data isn't wired to a real source yet.",
+    eyebrow: "120 courses · 95 bookable online",
     h1a: "Every course", h1b: "in Québec.", h1c: "On one map.",
     lede: "Where they are, which region, and how to reach the club. <b>Live tee times will arrive when the booking systems are connected — not before.</b>",
     go: "Search", ph: "Postal code, town or course",
@@ -105,7 +106,7 @@ const T = {
     eb5: "What's coming", h2e: "And what <em>isn't here yet.</em>",
     l5: "Written down plainly so nobody gets the wrong idea — us included.",
     eb6: "Run a club?", h2d: "Your course is missing. <em>Tell us.</em>",
-    l6: "The registry holds 123 of roughly 350. A correction, an addition, a removal: handled within the week.",
+    l6: "The registry holds 120 of roughly 350. A correction, an addition, a removal: handled within the week.",
     foot: "The directory of Québec golf courses. Independent, unaffiliated with Golf Québec or any club.",
     note: "Names, towns and regions: real. Positions: approximate — always confirm the address with the club. Booking links were verified one by one on 24 August 2026; a club can switch platform without notice. Aerial views are generated illustrations, not photographs of the courses. No prices, ratings or tee times are shown: that data will only appear here wired to a real source.",
     all: "All regions", count: (n) => `${n} courses`, none: "No courses match.",
@@ -113,16 +114,17 @@ const T = {
     steps: [
       ["Search", "Postal code (J4B), town, region or club name. Results rank by real distance from the point you searched."],
       ["Locate", "The map shows where each course sits in Québec. Approximate position: good for orientation, confirm with the club."],
-      ["Book", "For 70 of 123 courses, one click opens the club's real booking system — GGGolf or Chronogolf — in a new tab. For the rest, the club's Google listing."]
+      ["Book", "For 95 of 120 courses, one click opens the club's real booking system — GGGolf or Chronogolf — in a new tab. For the rest, the club's Google listing."]
     ],
     roadmap: [
-      ["Finish the registry", "123 courses of roughly 350. Next: reconcile OpenStreetMap, Google Places and the Golf Québec / ACGQ directories, then verify every entry by hand."],
+      ["Finish the registry", "120 courses of roughly 350. Next: reconcile OpenStreetMap, Google Places and the Golf Québec / ACGQ directories, then verify every entry by hand."],
       ["Show the times here", "GGGolf (35 courses) and Chronogolf (32) split Québec between them. Wire up GGGolf first — it's a Québec company. Nothing shows until the data is real and fresh."],
       ["One-click booking", "Once availability is known, the link will land on the right slot in the club's own system. Payment always stays with the club."]
     ],
     sheetLoc: "Where it is", sheetActs: "Reach the club",
     aMaps: "Open in Google Maps", aMapsSub: "Address, phone, reviews, hours",
     aBook: "Book a tee time", aBookSub: (p) => p ? `The club's own booking system · ${p}` : "The club's own booking system",
+    aCall: "Call the club", aCallSub: "Direct line",
     aSearch: "Search for tee times", aSearchSub: "Google search: the club's online booking",
     aDir: "Directions", aDirSub: "From your location",
     pendingT: "Online booking: not found",
@@ -305,6 +307,11 @@ function openSheet(slug) {
        <span><span>${label}</span><span class="sub">${sub} · ${L.newTab}</span></span>
        <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
      </a>`;
+  const actTel = (phone, primary) =>
+    `<a class="act${primary ? " primary" : ""}" href="tel:${phone.replace(/[^0-9+]/g, "")}">
+       <span><span>${L.aCall}</span><span class="sub">${phone}</span></span>
+       <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+     </a>`;
 
   const plat = c.platform ? PLATFORM[c.platform] : null;
   const foot = c.booking
@@ -336,6 +343,7 @@ function openSheet(slug) {
       <p class="slabel">${L.sheetActs}</p>
       <div class="acts">
         ${c.booking ? act(c.booking, L.aBook, L.aBookSub(plat), true) : ""}
+        ${c.phone ? actTel(c.phone, !c.booking) : ""}
         ${act(mapsUrl(c), L.aMaps, L.aMapsSub)}
         ${c.booking ? "" : act(searchUrl(c), L.aSearch, L.aSearchSub)}
         ${act(dirUrl(c), L.aDir, L.aDirSub)}

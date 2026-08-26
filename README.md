@@ -40,7 +40,8 @@ dans le navigateur. C'est retiré.
 | Position sur la carte | **Approximative** (± ~1 km), pas une adresse |
 | Photos des parcours | **Imagerie satellite Google réelle** dès qu'une clé est configurée (`assets/config.js`). Sans clé : illustrations générées. |
 | Paysages des régions | **Illustrations générées** |
-| Lien de réservation | **Vérifié à la main** pour 70 des 123 parcours (GGGolf 35, Chronogolf 32, autres 3). Jamais deviné. |
+| Lien de réservation | **Vérifié à la main** pour 95 des 120 parcours (GGGolf 44, Chronogolf 45, autres 6). Jamais deviné. |
+| Téléphone | **Vérifié sur le site du club** pour 61 des 120 parcours. Jamais deviné. |
 | Heures de départ | **Retirées.** Aucune source réelle branchée |
 | Tarifs | **Retirés** |
 | Notes et nombre d'avis | **Retirés** |
@@ -60,9 +61,13 @@ onglet** (`target="_blank" rel="noopener noreferrer"`) :
 - **Itinéraire** — navigation depuis la position du visiteur
 
 Quand `booking` existe dans `data/courses.js`, un bouton **Réserver un départ**
-apparaît en premier et mène au vrai système du club. Ces 70 URL ont été
-vérifiées une par une le 24 août 2026, sur le site du club ou sur une page
-réellement consultée — jamais devinées à partir du nom.
+apparaît en premier et mène au vrai système du club. Ces 95 URL ont été
+vérifiées une par une (70 le 24 août 2026, 25 de plus le 26 août 2026), sur le
+site du club ou sur une page réellement consultée — jamais devinées à partir
+du nom. Beaucoup de clubs injectent leur widget Chronogolf/GGGolf en
+JavaScript plutôt que d'en afficher le lien en clair : une simple recherche
+ou un `fetch` brut du HTML ne le voit pas — il faut charger la page dans un
+vrai navigateur et inspecter le DOM rendu.
 
 Deux pièges rencontrés : plusieurs clubs gardent une fiche Chronogolf périmée
 alors que leurs vraies réservations tournent sur GGGolf (toujours croire le
