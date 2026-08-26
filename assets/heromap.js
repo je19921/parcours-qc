@@ -161,8 +161,7 @@ function makeHeroMap(canvas, courses, opts){
       const ign=Math.min(1,since/460);
       const ease=1-Math.pow(1-ign,3);
       const tw=reduce?1:.82+Math.sin(el/900+p.tw)*.18;
-      const col=o.pinColor;
-      const rad=2.6*ease*tw;
+      const rad=4.3*ease*tw;
 
       /* the ignition flare, then it settles */
       if(since<560){
@@ -170,12 +169,18 @@ function makeHeroMap(canvas, courses, opts){
         ctx.beginPath(); ctx.arc(p.x,p.y,rad+14*f,0,7);
         ctx.fillStyle=`rgba(242,200,122,${.20*f*f})`; ctx.fill();
       }
+      /* une balle, pas un point : blanc chaud + un éclat, le halo doré
+         reste — c'est la lumière du terrain, pas la couleur de la balle */
       ctx.save();
       ctx.shadowColor=o.glow;
-      ctx.shadowBlur=13*tw;
+      ctx.shadowBlur=3*tw;
+      ctx.globalAlpha=ease;
       ctx.beginPath(); ctx.arc(p.x,p.y,rad,0,7);
-      ctx.fillStyle=col; ctx.globalAlpha=ease;
-      ctx.fill(); ctx.restore();
+      ctx.fillStyle='#F4F0E3'; ctx.fill();
+      ctx.shadowBlur=0;
+      ctx.beginPath(); ctx.arc(p.x-rad*.32,p.y-rad*.32,rad*.38,0,7);
+      ctx.fillStyle='rgba(255,255,255,.9)'; ctx.fill();
+      ctx.restore();
     });
 
     ctx.restore();

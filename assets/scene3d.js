@@ -32,10 +32,13 @@ function initScene3D(canvas, heroEl) {
   camera.position.copy(camBase);
   camera.lookAt(0, 0, 0);
 
-  scene.add(new THREE.AmbientLight(0x223328, 1.3));
-  const key = new THREE.DirectionalLight(DAWN, 1.1);
+  scene.add(new THREE.AmbientLight(0x2a3d30, 1.1));
+  const key = new THREE.DirectionalLight(0xfbe8c2, 1.35);
   key.position.set(4, 8, 6);
   scene.add(key);
+  const rim = new THREE.DirectionalLight(DAWN, 0.55);
+  rim.position.set(-5, 3, -4);
+  scene.add(rim);
 
   /* ---- silhouette du Québec — mêmes points que heromap.js, dupliqués :
      un script module ne partage pas la portée des scripts classiques. ---- */
@@ -90,12 +93,34 @@ function initScene3D(canvas, heroEl) {
   const riverMat = new THREE.LineBasicMaterial({ color: 0x7ecece, transparent: true, opacity: 0.7 });
   scene.add(new THREE.Line(riverGeo, riverMat));
 
-  /* ---- les parcours, comme des nœuds de lumière au-dessus de la carte ---- */
+  /* ---- les parcours, comme de vraies balles posées sur la carte ---- */
   const COURSES = window.PQ_COURSES || [];
   const count = Math.max(1, Math.min(COURSES.length, 200));
-  const pinGeo = new THREE.IcosahedronGeometry(0.16, 1);
+  const pinGeo = new THREE.SphereGeometry(0.16, 16, 12);
+
+  function dimpleTexture() {
+    const s = 256, c = document.createElement("canvas");
+    c.width = c.height = s;
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#808080"; ctx.fillRect(0, 0, s, s);
+    const rows = 10, cell = s / rows;
+    for (let ry = 0; ry < rows; ry++) {
+      for (let rx = 0; rx < rows; rx++) {
+        const x = rx * cell + (ry % 2 ? cell / 2 : 0) + cell / 2;
+        const y = ry * cell + cell / 2;
+        ctx.beginPath(); ctx.arc(x, y, cell * 0.3, 0, Math.PI * 2);
+        ctx.fillStyle = "#3a3a3a"; ctx.fill();
+      }
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(4, 2);
+    return tex;
+  }
   const pinMat = new THREE.MeshStandardMaterial({
-    color: DAWN, emissive: EMBER, emissiveIntensity: 1.4, roughness: 0.4, metalness: 0.1,
+    color: 0xf7f3e8, emissive: MIST, emissiveIntensity: 0.12,
+    roughness: 0.55, metalness: 0.02,
+    bumpMap: dimpleTexture(), bumpScale: 0.012,
     transparent: true, opacity: 1,
   });
   const pins = new THREE.InstancedMesh(pinGeo, pinMat, count);

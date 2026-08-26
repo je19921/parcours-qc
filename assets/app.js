@@ -220,7 +220,9 @@ function card(c, i) {
         ? `src="${satUrl(c, 480, 300)}" data-fallback="${c.id}" data-w="480" data-h="300"`
         : `data-art="${c.id}" data-w="480" data-h="300"`} alt="" loading="lazy" decoding="async">
       <span class="tag">${c.booking ? `<span class="ok">${L.online}</span>` : ""}<span>${c.region}</span>${km ? `<span>${km}</span>` : ""}</span>
-      <span class="shotnote">${hasPhotos() ? L.sat : L.illus}</span>
+      <span class="shotnote icon" title="${hasPhotos() ? L.sat : L.illus}" aria-label="${hasPhotos() ? L.sat : L.illus}">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.4" fill="currentColor" stroke="none"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg>
+      </span>
       <span class="cap"><h3>${c.name}</h3><span class="sub">${c.city}</span></span>
     </span>
     <span class="foot">
@@ -264,7 +266,8 @@ document.addEventListener("error", (e) => {
   const c = COURSES.find((x) => x.id === +el.dataset.fallback);
   if (c) el.src = aerial(c, +el.dataset.w, +el.dataset.h);
   const note = el.parentElement && el.parentElement.querySelector(".shotnote");
-  if (note) note.textContent = t().illus;
+  if (note && note.classList.contains("icon")) { note.title = t().illus; note.setAttribute("aria-label", t().illus); }
+  else if (note) note.textContent = t().illus;
 }, true);
 
 function hydrate(scope) {
@@ -440,12 +443,57 @@ $("bfr").onclick = () => setLang("fr");
 $("ben").onclick = () => setLang("en");
 
 /* ------------------- révélations, compteurs, nav ------------------- */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let landT;
+function railLand() {
+  const ball = $("railBall");
+  if (!ball) return;
+  ball.classList.remove("land");
+  void ball.offsetWidth; // relance l'animation même si elle vient de jouer
+  ball.classList.add("land");
+  clearTimeout(landT);
+  landT = setTimeout(() => ball.classList.remove("land"), 600);
+}
 const revObs = new IntersectionObserver((es) => {
-  es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); revObs.unobserve(e.target); } });
+  es.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add("in");
+      revObs.unobserve(e.target);
+      if (!reduce) railLand();
+    }
+  });
 }, { rootMargin: "0px 0px -12% 0px" });
 document.querySelectorAll(".reveal").forEach((el) => revObs.observe(el));
 
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* la balle qui descend le rail, et le texte d'accueil qui s'efface avec
+   la scène 3D au lieu de simplement défiler à plat — un seul écouteur,
+   throttlé par rAF, pour les deux effets liés au défilement */
+if (!reduce) {
+  const rail = $("scrollRail");
+  const heroCopy = document.querySelector(".hero-copy");
+  const heroEl = $("top");
+  let ticking = false;
+  function updateScrollFx() {
+    ticking = false;
+    const track = Math.max(1, innerHeight - 80 - 18);
+    const doc = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    const frac = Math.min(1, Math.max(0, scrollY / doc));
+    rail.style.setProperty("--sy", (frac * track) + "px");
+    rail.style.setProperty("--sr", (scrollY * 0.6) + "deg");
+
+    if (heroCopy && heroEl) {
+      const heroP = Math.min(1, Math.max(0, scrollY / (heroEl.offsetHeight || 1)));
+      heroCopy.style.setProperty("--hpy", (heroP * -60) + "px");
+      heroCopy.style.setProperty("--hop", String(1 - heroP * 1.4));
+    }
+  }
+  addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateScrollFx); }
+  }, { passive: true });
+  addEventListener("resize", updateScrollFx);
+  updateScrollFx();
+}
+
 const numObs = new IntersectionObserver((es) => {
   es.forEach((e) => {
     if (!e.isIntersecting) return;

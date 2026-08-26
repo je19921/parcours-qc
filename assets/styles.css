@@ -112,7 +112,7 @@ h2 em{font-style:italic;color:var(--dawn);font-variation-settings:"WONK" 1}
     linear-gradient(to top,var(--night) 2%,transparent 32%);
 }
 .hero-inner{position:relative;z-index:2;width:100%}
-.hero-copy{max-width:660px}
+.hero-copy{max-width:660px;transform:translateY(var(--hpy,0px));opacity:var(--hop,1)}
 h1{
   font-family:var(--display);font-optical-sizing:auto;
   font-variation-settings:"SOFT" 0,"WONK" 1,"opsz" 144;
@@ -237,7 +237,7 @@ section.blk{padding:clamp(72px,10vw,132px) 0;position:relative}
   background:linear-gradient(to top,rgba(4,11,8,.92) 4%,rgba(4,11,8,.34) 40%,rgba(4,11,8,0) 72%);
 }
 .tag{
-  position:absolute;top:12px;left:12px;z-index:2;display:flex;gap:6px;flex-wrap:wrap;
+  position:absolute;top:12px;left:12px;right:44px;z-index:2;display:flex;gap:6px;flex-wrap:wrap;
 }
 .tag span{
   font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
@@ -445,6 +445,12 @@ footer p{margin:0;color:var(--sage-dim);font-size:12.5px;max-width:56ch;line-hei
   color:rgba(233,239,230,.5);background:rgba(6,16,11,.5);padding:3px 6px;border-radius:4px;
   backdrop-filter:blur(6px);
 }
+.shotnote.icon{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;padding:0;border-radius:50%;
+  border:1px solid rgba(233,239,230,.14);color:rgba(233,239,230,.72);
+}
+.shotnote.icon svg{width:12px;height:12px}
 
 /* actions réelles dans le panneau */
 .acts{display:flex;flex-direction:column;gap:9px;margin-bottom:26px}
@@ -599,4 +605,47 @@ footer p{margin:0;color:var(--sage-dim);font-size:12.5px;max-width:56ch;line-hei
   .ambient i{animation:none}
   .cursor-glow{display:none}
   .reveal{filter:none}
+  .scrollrail{display:none}
+}
+
+/* ============================================================
+   Le rail — une balle qui descend la page avec le visiteur
+   ============================================================ */
+.scrollrail{
+  position:fixed;right:22px;top:0;height:100vh;width:26px;z-index:90;
+  pointer-events:none;display:flex;justify-content:center;
+}
+.rail-line{
+  position:absolute;top:40px;bottom:40px;left:50%;width:1px;
+  background:linear-gradient(to bottom,transparent,var(--line-strong) 10%,var(--line-strong) 90%,transparent);
+  transform:translateX(-50%);
+}
+.rail-ball{
+  position:absolute;top:40px;left:50%;width:18px;height:18px;
+  transform:translate(-50%,var(--sy,0px)) rotate(var(--sr,0deg));
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5)) drop-shadow(0 0 7px rgba(232,181,88,.35));
+}
+.rail-ball svg{width:100%;height:100%}
+.rail-ball svg circle:first-child{fill:#F4F0E3}
+.rail-ball svg circle.d{fill:rgba(20,35,28,.3)}
+.rail-ball.land{animation:railLand .55s var(--ease)}
+@keyframes railLand{
+  0%{transform:translate(-50%,var(--sy,0px)) rotate(var(--sr,0deg)) scale(1)}
+  35%{transform:translate(-50%,var(--sy,0px)) rotate(var(--sr,0deg)) scale(1.55)}
+  100%{transform:translate(-50%,var(--sy,0px)) rotate(var(--sr,0deg)) scale(1)}
+}
+@media (max-width:900px){.scrollrail{display:none}}
+
+.tee-divider{
+  display:block;width:64px;height:16px;margin:-8px auto;position:relative;z-index:5;
+  color:var(--dawn);opacity:.6;pointer-events:none;
+}
+
+/* ============================================================
+   Balle et fanion — le motif golf répété dans les détails
+   ============================================================ */
+.step::after{
+  content:"";position:absolute;top:-4.5px;left:0;width:8px;height:8px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fff,#E9EFE6 42%,#9FAFA5 78%);
+  box-shadow:0 0 7px rgba(232,181,88,.4);
 }
