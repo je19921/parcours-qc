@@ -42,8 +42,8 @@ const T = {
   fr: {
     nav1: "Parcours", nav2: "Régions", nav3: "Comment ça marche",
     cta: "Voir les parcours", cta2: "Nous écrire",
-    notice: "<b>Registre en construction.</b> 70 des 85 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.",
-    eyebrow: "85 parcours · 70 réservables en ligne",
+    notice: "<b>Registre en construction.</b> 70 des 123 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.",
+    eyebrow: "123 parcours · 70 réservables en ligne",
     h1a: "Chaque parcours", h1b: "du Québec.", h1c: "Sur une seule carte.",
     lede: "Où ils sont, dans quelle région, et comment joindre le club. <b>Les départs en direct viendront quand les systèmes de réservation seront branchés — pas avant.</b>",
     go: "Chercher", ph: "Code postal, ville ou parcours",
@@ -59,7 +59,7 @@ const T = {
     eb5: "Ce qui s'en vient", h2e: "Et ce qui <em>n'est pas encore là.</em>",
     l5: "Écrit noir sur blanc pour que personne ne se fasse d'idées — y compris nous.",
     eb6: "Vous gérez un club ?", h2d: "Il manque votre parcours. <em>Dites-le-nous.</em>",
-    l6: "Le registre en compte 96 sur environ 350. Une correction, un ajout, un retrait : c'est traité dans la semaine.",
+    l6: "Le registre en compte 123 sur environ 350. Une correction, un ajout, un retrait : c'est traité dans la semaine.",
     foot: "Le répertoire des terrains de golf du Québec. Indépendant, sans lien avec Golf Québec ni avec aucun club.",
     note: "Noms, villes et régions : réels. Positions : approximatives — vérifiez toujours l'adresse auprès du club. Les liens de réservation ont été vérifiés un par un le 24 août 2026; un club peut changer de plateforme sans préavis. Les vues aériennes sont des illustrations générées, pas des photos des parcours. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données n'existeront ici que branchées à une vraie source.",
     all: "Toutes les régions", count: (n) => `${n} parcours`, none: "Aucun parcours ne correspond.",
@@ -67,10 +67,10 @@ const T = {
     steps: [
       ["Chercher", "Code postal (J4B), ville, région ou nom du club. Les résultats se classent par distance réelle depuis le point cherché."],
       ["Situer", "La carte montre où se trouve chaque parcours au Québec. Position approximative : bonne pour se repérer, à confirmer auprès du club."],
-      ["Réserver", "Pour 70 des 85 parcours, un clic ouvre le vrai système de réservation du club — GGGolf ou Chronogolf — dans un nouvel onglet. Pour les autres, la fiche Google du club."]
+      ["Réserver", "Pour 70 des 123 parcours, un clic ouvre le vrai système de réservation du club — GGGolf ou Chronogolf — dans un nouvel onglet. Pour les autres, la fiche Google du club."]
     ],
     roadmap: [
-      ["Compléter le registre", "85 parcours sur environ 350. La suite : recouper OpenStreetMap, Google Places et les répertoires de Golf Québec et de l'ACGQ, puis vérifier chaque fiche à la main."],
+      ["Compléter le registre", "123 parcours sur environ 350. La suite : recouper OpenStreetMap, Google Places et les répertoires de Golf Québec et de l'ACGQ, puis vérifier chaque fiche à la main."],
       ["Voir les heures ici", "GGGolf (35 parcours) et Chronogolf (32) se partagent le Québec. Se brancher à GGGolf en premier — c'est une entreprise québécoise. Rien ne s'affichera avant que la donnée soit réelle et fraîche."],
       ["Réserver en un clic", "Une fois les disponibilités connues, le lien mènera directement au bon créneau sur le système du club. Le paiement restera toujours chez le club."]
     ],
@@ -88,8 +88,8 @@ const T = {
   en: {
     nav1: "Courses", nav2: "Regions", nav3: "How it works",
     cta: "Browse courses", cta2: "Get in touch",
-    notice: "<b>Registry under construction.</b> 70 of 85 courses have a hand-verified booking link. No prices, ratings or tee times are shown: that data isn't wired to a real source yet.",
-    eyebrow: "85 courses · 70 bookable online",
+    notice: "<b>Registry under construction.</b> 70 of 123 courses have a hand-verified booking link. No prices, ratings or tee times are shown: that data isn't wired to a real source yet.",
+    eyebrow: "123 courses · 70 bookable online",
     h1a: "Every course", h1b: "in Québec.", h1c: "On one map.",
     lede: "Where they are, which region, and how to reach the club. <b>Live tee times will arrive when the booking systems are connected — not before.</b>",
     go: "Search", ph: "Postal code, town or course",
@@ -105,7 +105,7 @@ const T = {
     eb5: "What's coming", h2e: "And what <em>isn't here yet.</em>",
     l5: "Written down plainly so nobody gets the wrong idea — us included.",
     eb6: "Run a club?", h2d: "Your course is missing. <em>Tell us.</em>",
-    l6: "The registry holds 96 of roughly 350. A correction, an addition, a removal: handled within the week.",
+    l6: "The registry holds 123 of roughly 350. A correction, an addition, a removal: handled within the week.",
     foot: "The directory of Québec golf courses. Independent, unaffiliated with Golf Québec or any club.",
     note: "Names, towns and regions: real. Positions: approximate — always confirm the address with the club. Booking links were verified one by one on 24 August 2026; a club can switch platform without notice. Aerial views are generated illustrations, not photographs of the courses. No prices, ratings or tee times are shown: that data will only appear here wired to a real source.",
     all: "All regions", count: (n) => `${n} courses`, none: "No courses match.",
@@ -113,10 +113,10 @@ const T = {
     steps: [
       ["Search", "Postal code (J4B), town, region or club name. Results rank by real distance from the point you searched."],
       ["Locate", "The map shows where each course sits in Québec. Approximate position: good for orientation, confirm with the club."],
-      ["Book", "For 70 of 85 courses, one click opens the club's real booking system — GGGolf or Chronogolf — in a new tab. For the rest, the club's Google listing."]
+      ["Book", "For 70 of 123 courses, one click opens the club's real booking system — GGGolf or Chronogolf — in a new tab. For the rest, the club's Google listing."]
     ],
     roadmap: [
-      ["Finish the registry", "85 courses of roughly 350. Next: reconcile OpenStreetMap, Google Places and the Golf Québec / ACGQ directories, then verify every entry by hand."],
+      ["Finish the registry", "123 courses of roughly 350. Next: reconcile OpenStreetMap, Google Places and the Golf Québec / ACGQ directories, then verify every entry by hand."],
       ["Show the times here", "GGGolf (35 courses) and Chronogolf (32) split Québec between them. Wire up GGGolf first — it's a Québec company. Nothing shows until the data is real and fresh."],
       ["One-click booking", "Once availability is known, the link will land on the right slot in the club's own system. Payment always stays with the club."]
     ],

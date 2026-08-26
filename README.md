@@ -40,7 +40,7 @@ dans le navigateur. C'est retiré.
 | Position sur la carte | **Approximative** (± ~1 km), pas une adresse |
 | Photos des parcours | **Imagerie satellite Google réelle** dès qu'une clé est configurée (`assets/config.js`). Sans clé : illustrations générées. |
 | Paysages des régions | **Illustrations générées** |
-| Lien de réservation | **Vérifié à la main** pour 70 des 85 parcours (GGGolf 35, Chronogolf 32, autres 3). Jamais deviné. |
+| Lien de réservation | **Vérifié à la main** pour 70 des 123 parcours (GGGolf 35, Chronogolf 32, autres 3). Jamais deviné. |
 | Heures de départ | **Retirées.** Aucune source réelle branchée |
 | Tarifs | **Retirés** |
 | Notes et nombre d'avis | **Retirés** |
