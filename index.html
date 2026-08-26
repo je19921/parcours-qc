@@ -121,6 +121,22 @@
   </div>
 </section>
 
+<section class="blk globe-sect" id="explorer">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow" data-i="ebG">Vue satellite</p>
+      <h2 data-i="h2g">De l'espace <em>jusqu'au vert.</em></h2>
+      <p class="sect-lede" data-i="lg">La Terre, vue de vraies images satellite — puis le Québec. Glissez pour tourner, molette ou pincez pour zoomer. Chaque point est un parcours du registre, et suit le même filtre que la liste.</p>
+    </div>
+    <div class="tools reveal" id="globeTools"></div>
+    <div class="globe-wrap reveal">
+      <canvas id="globeCanvas" aria-label="Carte satellite interactive des parcours de golf du Québec"></canvas>
+      <div class="globe-loading" id="globeLoading" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="globe-hint" id="globeHint" data-i="ghint">Glissez pour tourner · molette pour zoomer</div>
+    </div>
+  </div>
+</section>
+
 <svg class="tee-divider" viewBox="0 0 64 16" aria-hidden="true"><path d="M6 8h20M38 8h20" stroke="currentColor" stroke-width="1" stroke-dasharray="1 4" stroke-linecap="round"/><circle cx="32" cy="8" r="3" fill="currentColor"/></svg>
 <section class="blk alt" id="regions">
   <div class="wrap">
@@ -184,5 +200,6 @@
 <script src="assets/heromap.js"></script>
 <script src="assets/app.js"></script>
 <script type="module" src="assets/scene3d.js"></script>
+<script type="module" src="assets/globe.js"></script>
 </body>
 </html>

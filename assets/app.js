@@ -53,6 +53,9 @@ const T = {
     eb2: "Le répertoire", h2a: "Trouvez le parcours, <em>joignez le club.</em>",
     l2: "Cherchez par code postal, ville, région ou nom. Quand le club réserve en ligne, le bouton mène directement à son vrai système — GGGolf ou Chronogolf — dans un nouvel onglet.",
     more: "Voir plus de parcours",
+    ebG: "Vue satellite", h2g: "De l'espace <em>jusqu'au vert.</em>",
+    lg: "La Terre, vue de vraies images satellite — puis le Québec. Glissez pour tourner, molette ou pincez pour zoomer. Chaque point est un parcours du registre, et suit le même filtre que la liste.",
+    ghint: "Glissez pour tourner · molette pour zoomer",
     eb3: "Par région", h2b: "Du Vieux-Montréal <em>jusqu'à la Gaspésie.</em>",
     l3: "Le golf québécois ne s'arrête pas à la couronne nord. Choisissez une région pour filtrer le répertoire.",
     eb4: "Ce que le site fait aujourd'hui", h2c: "Trois choses. <em>Elles fonctionnent.</em>",
@@ -100,6 +103,9 @@ const T = {
     eb2: "The directory", h2a: "Find the course, <em>reach the club.</em>",
     l2: "Search by postal code, town, region or name. Where the club books online, the button goes straight to its real system — GGGolf or Chronogolf — in a new tab.",
     more: "Show more courses",
+    ebG: "Satellite view", h2g: "From orbit <em>to the fairway.</em>",
+    lg: "The Earth, in real satellite imagery — then Québec. Drag to rotate, scroll or pinch to zoom. Every point is a course in the registry, following the same filter as the list.",
+    ghint: "Drag to rotate · scroll to zoom",
     eb3: "By region", h2b: "From Old Montréal <em>to the Gaspé.</em>",
     l3: "Québec golf doesn't stop at the north shore. Pick a region to filter the directory.",
     eb4: "What the site does today", h2c: "Three things. <em>They work.</em>",
@@ -211,6 +217,9 @@ function chips() {
       `<button class="chip" data-r="${r}" aria-pressed="${S.region === r}">${r}</button>`));
   $("tools").innerHTML = items.join("") +
     `<span class="toolspace"></span><span class="rescount" id="rescount"></span>`;
+  /* même bouton, même état — la carte 3D lit S.region exactement comme la liste */
+  const gt = $("globeTools");
+  if (gt) gt.innerHTML = items.join("");
 }
 
 function card(c, i) {
@@ -246,6 +255,9 @@ function renderGrid() {
   if (rc) rc.textContent = L.count(all.length) + (S.originLabel ? " · " + S.originLabel : "");
   $("moreBtn").style.display = all.length > S.shown ? "" : "none";
   hydrate($("grid"));
+  /* la carte 3D (assets/globe.js) écoute ce hook pour rester en phase
+     avec le même filtre — un seul état, deux vues */
+  if (window.PQ_onFilterChange) window.PQ_onFilterChange(all, S.region);
 }
 
 const artObs = new IntersectionObserver((es) => {
@@ -389,13 +401,15 @@ $("regionGrid").addEventListener("click", (e) => {
   $("parcours").scrollIntoView({ behavior: "smooth" });
 });
 
-$("tools").addEventListener("click", (e) => {
+function onRegionChipClick(e) {
   const b = e.target.closest("button[data-r]");
   if (!b) return;
   S.region = b.dataset.r || null;
   S.shown = 9;
   chips(); renderGrid();
-});
+}
+$("tools").addEventListener("click", onRegionChipClick);
+$("globeTools").addEventListener("click", onRegionChipClick);
 
 $("moreBtn").addEventListener("click", () => { S.shown += 9; renderGrid(); });
 $("scrim").addEventListener("click", closeSheet);
@@ -572,3 +586,8 @@ renderRegions();
 renderSteps();
 makeHeroMap($("heroMap"), COURSES, {});
 requestAnimationFrame(() => document.documentElement.classList.add("ready"));
+
+/* la carte 3D (assets/globe.js, module chargé séparément) ouvre la
+   même fiche que la liste — un seul point d'entrée, pas de doublon */
+window.PQ_openSheet = openSheet;
+window.PQ_REGIONS = REGIONS;
