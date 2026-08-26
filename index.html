@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parcours Québec</title>
+<meta name="description" content="Le répertoire des terrains de golf du Québec sur une seule carte. 85 parcours, dont 70 réservables en ligne. En route vers les ~350 de la province.">
+<meta name="theme-color" content="#060D0A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23060D0A'/%3E%3Ccircle cx='16' cy='19' r='3' fill='%23E8B558'/%3E%3Cpath d='M15 19V7l8 3-8 3' stroke='%23E9EFE6' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+
+<!-- Aperçu social. Remplacez og:image par une vraie capture 1200x630 hébergée
+     chez vous : les aperçus de liens n'exécutent jamais de JavaScript, donc
+     cette image-là ne peut pas être générée comme le reste du site. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Parcours Québec">
+<meta property="og:description" content="Chaque parcours du Québec, sur une seule carte.">
+<meta property="og:locale" content="fr_CA">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..900,0..100,0..1;1,9..144,400..900,0..100,0..1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="notice" id="notice">
+  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+  <span data-i="notice"><b>Registre en construction.</b> 70 des 85 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.</span>
+</div>
+
+<nav class="nav" id="nav">
+  <a class="brand" href="#top"><b>Parcours</b><span>QC</span></a>
+  <div class="navlinks">
+    <a href="#parcours" data-i="nav1">Parcours</a>
+    <a href="#regions" data-i="nav2">Régions</a>
+    <a href="#comment" data-i="nav3">Comment ça marche</a>
+  </div>
+  <div class="navspace"></div>
+  <div class="lang" role="group" aria-label="Langue">
+    <button id="bfr" aria-pressed="true">FR</button>
+    <button id="ben" aria-pressed="false">EN</button>
+  </div>
+  <a class="navcta" href="#parcours" data-i="cta">Voir les parcours</a>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="heroMap" aria-label="Carte des terrains de golf du Québec"></canvas>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="hero-inner wrap">
+    <div class="hero-copy">
+      <p class="eyebrow" data-i="eyebrow">85 parcours · 70 réservables en ligne</p>
+      <h1>
+        <span class="ln"><span data-i="h1a">Chaque parcours</span></span>
+        <span class="ln"><span data-i="h1b">du Québec.</span></span>
+        <span class="ln"><span><em data-i="h1c">Sur une seule carte.</em></span></span>
+      </h1>
+      <p class="hero-lede" data-i="lede">Où ils sont, et un lien direct vers le vrai système de réservation du club. <b>70 des 85 parcours sont réservables en ligne, vérifiés un par un.</b></p>
+      <form class="hero-search" id="heroForm" onsubmit="return false">
+        <label class="field">
+          <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+          <input id="q" type="search" autocomplete="off" placeholder="Code postal, ville ou parcours" aria-label="Rechercher">
+        </label>
+        <button class="go" id="goBtn" data-i="go">Chercher</button>
+      </form>
+      <div class="hero-meta">
+        <div><i class="g"></i><span data-i="m1">Réservation en ligne vérifiée</span></div>
+        <div><i class="s"></i><span data-i="m2">Lien vers le club</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="cue" data-i="cue">Faites défiler</div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="stat"><b class="mono" data-count="85">0</b><span data-i="s1">parcours dans le registre</span></div>
+    <div class="stat"><b class="mono" data-count="17">0</b><span data-i="s2">régions couvertes</span></div>
+    <div class="stat"><b class="mono" data-count="70">0</b><span data-i="s3">avec réservation en ligne vérifiée</span></div>
+    <div class="stat"><b class="mono" data-count="350" data-prefix="~">0</b><span data-i="s4">parcours au Québec — l'objectif</span></div>
+  </div>
+</section>
+
+<section class="blk" id="parcours">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow" data-i="eb2">Le répertoire</p>
+      <h2 data-i="h2a">Trouvez le parcours, <em>joignez le club.</em></h2>
+      <p class="sect-lede" data-i="l2">Cherchez par code postal, ville, région ou nom. Quand le club réserve en ligne, le bouton mène directement à son vrai système — GGGolf ou Chronogolf — dans un nouvel onglet.</p>
+    </div>
+    <div class="tools reveal" id="tools"></div>
+    <div class="grid" id="grid"></div>
+    <div class="more"><button class="ghost" id="moreBtn" data-i="more">Voir plus de parcours</button></div>
+  </div>
+</section>
+
+<section class="blk alt" id="regions">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow" data-i="eb3">Par région</p>
+      <h2 data-i="h2b">Du Vieux-Montréal <em>jusqu'à la Gaspésie.</em></h2>
+      <p class="sect-lede" data-i="l3">Le golf québécois ne s'arrête pas à la couronne nord. Choisissez une région pour filtrer le répertoire.</p>
+    </div>
+    <div class="regions reveal" id="regionGrid"></div>
+  </div>
+</section>
+
+<section class="blk" id="comment">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow" data-i="eb4">Ce que le site fait aujourd'hui</p>
+      <h2 data-i="h2c">Trois choses. <em>Elles fonctionnent.</em></h2>
+    </div>
+    <div class="steps reveal" id="steps"></div>
+
+    <div class="head reveal" style="margin-top:clamp(56px,7vw,88px);margin-bottom:22px">
+      <p class="eyebrow" data-i="eb5">Ce qui s'en vient</p>
+      <h2 data-i="h2e">Et ce qui <em>n'est pas encore là.</em></h2>
+      <p class="sect-lede" data-i="l5">Écrit noir sur blanc pour que personne ne se fasse d'idées — y compris nous.</p>
+    </div>
+    <div class="steps reveal" id="roadmap"></div>
+  </div>
+</section>
+
+<section class="blk close">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow" style="justify-content:center" data-i="eb6">Vous gérez un club&nbsp;?</p>
+      <h2 data-i="h2d">Il manque votre parcours. <em>Dites-le-nous.</em></h2>
+      <p class="sect-lede" data-i="l6">Le registre en compte 85 sur environ 350. Une correction, un ajout, un retrait : c'est traité dans la semaine.</p>
+      <div class="more" style="margin-top:0">
+        <a class="go" id="contactBtn" href="#" data-i="cta2">Nous écrire</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="frow">
+      <a class="brand" href="#top"><b>Parcours</b><span>QC</span></a>
+      <p data-i="foot">Le répertoire des terrains de golf du Québec. Indépendant, sans lien avec Golf Québec ni avec aucun club.</p>
+    </div>
+    <p class="fnote" data-i="note">Noms, villes et régions : réels. Positions : approximatives (± 1 km) — vérifiez toujours l'adresse auprès du club. Les vues aériennes sont des illustrations générées, pas des photos des parcours. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données n'existeront ici que branchées à une vraie source.</p>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" aria-hidden="true"></aside>
+<div class="toast" id="toast"></div>
+
+<script src="assets/config.js"></script>
+<script src="data/courses.js"></script>
+<script src="assets/art.js"></script>
+<script src="assets/heromap.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
