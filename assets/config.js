@@ -23,6 +23,6 @@
    Mettez une alerte de budget avant tout le reste.
    ============================================================ */
 window.PQ_CONFIG = {
-  googleMapsKey: "",   // <-- votre clé ici
+  googleMapsKey: "AIzaSyD-rUw5iGwISt6OiZu0ONE2pj8W6TYWosQ",   // <-- votre clé ici
   satelliteZoom: 15    // 14 = plus large, 16 = plus serré
 };

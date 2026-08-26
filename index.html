@@ -21,10 +21,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..900,0..100,0..1;1,9..144,400..900,0..100,0..1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/styles.css">
+
+<!-- Rehausse 3D de la carte d'accueil (progressive : si le CDN est bloqué
+     ou que le visiteur préfère moins d'animation, la carte 2D reste seule
+     et le site fonctionne exactement comme avant). -->
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
 </head>
 <body>
 
 <div class="grain" aria-hidden="true"></div>
+<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
 <div class="notice" id="notice">
   <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
@@ -48,6 +60,7 @@
 
 <header class="hero" id="top">
   <canvas id="heroMap" aria-label="Carte des terrains de golf du Québec"></canvas>
+  <canvas id="scene3d" aria-hidden="true"></canvas>
   <div class="hero-veil" aria-hidden="true"></div>
   <div class="hero-inner wrap">
     <div class="hero-copy">
@@ -156,5 +169,6 @@
 <script src="assets/art.js"></script>
 <script src="assets/heromap.js"></script>
 <script src="assets/app.js"></script>
+<script type="module" src="assets/scene3d.js"></script>
 </body>
 </html>

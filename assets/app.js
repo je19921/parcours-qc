@@ -474,6 +474,40 @@ addEventListener("scroll", () => {
   $("nav").classList.toggle("stuck", scrollY > 40);
 }, { passive: true });
 
+/* --------------------- bascule 3D des fiches --------------------- */
+/* Délégué sur le conteneur stable (la grille est reconstruite à chaque
+   filtrage, les cartes elles-mêmes ne le sont pas). */
+function tiltOn(container, selector) {
+  container.addEventListener("pointermove", (e) => {
+    const el = e.target.closest(selector);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    el.style.setProperty("--rx", ((0.5 - py) * 10).toFixed(2) + "deg");
+    el.style.setProperty("--ry", ((px - 0.5) * 12).toFixed(2) + "deg");
+    el.style.setProperty("--ty", "-5px");
+    el.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+    el.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+  });
+  container.addEventListener("pointerout", (e) => {
+    const from = e.target.closest(selector);
+    if (!from || from.contains(e.relatedTarget)) return;
+    ["--rx", "--ry", "--ty", "--mx", "--my"].forEach((p) => from.style.removeProperty(p));
+  });
+}
+if (!reduce) { tiltOn($("grid"), ".tile"); tiltOn($("regionGrid"), ".rcard"); }
+
+/* -------------------------- lueur du curseur -------------------------- */
+if (!reduce && matchMedia("(pointer:fine)").matches) {
+  const glow = $("cursorGlow");
+  addEventListener("pointermove", (e) => {
+    glow.style.setProperty("--cx", e.clientX + "px");
+    glow.style.setProperty("--cy", e.clientY + "px");
+    glow.classList.add("on");
+  }, { passive: true });
+  addEventListener("pointerout", (e) => { if (!e.relatedTarget) glow.classList.remove("on"); });
+}
+
 /* ------------------------------ départ ------------------------------ */
 measureNotice();
 chips();

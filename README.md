@@ -11,14 +11,19 @@ golfwebsite/
 │  ├─ config.js          VOTRE CLÉ GOOGLE — pour les vraies photos
 │  ├─ app.js             recherche, filtres, fiches, langue
 │  ├─ art.js             vues aériennes et paysages générés au navigateur
-│  └─ heromap.js         la carte animée de l'accueil
+│  ├─ heromap.js         la carte 2D animée de l'accueil (aucune dépendance)
+│  └─ scene3d.js         rehausse 3D de la même carte, en progressive enhancement
 ├─ data/
 │  └─ courses.js         le registre — le seul fichier à faire grandir
 └─ README.md
 ```
 
-Seule ressource externe : la feuille Google Fonts. Tout le reste — carte,
-images de parcours, paysages de région — est dessiné dans le navigateur.
+Deux ressources externes : la feuille Google Fonts, et la librairie three.js
+(via CDN, `<script type="importmap">` dans `index.html`) pour la couche 3D de
+l'accueil. Si l'une ou l'autre est bloquée, le site continue de fonctionner —
+`scene3d.js` échoue silencieusement et la carte 2D de `heromap.js` reste seule
+visible. Tout le reste — images de parcours, paysages de région — est dessiné
+dans le navigateur.
 
 ---
 
