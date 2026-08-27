@@ -11,7 +11,7 @@
 const COURSES = window.PQ_COURSES || [];
 const $ = (id) => document.getElementById(id);
 const PLATFORM = { gggolf: "GGGolf", chronogolf: "Chronogolf",
-  golfnow: "GolfNow", teeon: "Tee-On", teesnap: "Teesnap", foreup: "foreUP", custom: null };
+  golfnow: "GolfNow", teeon: "Tee-On", teesnap: "Teesnap", foreup: "foreUP", vtgolf: "VT Golf", custom: null };
 /* ---------------- photos réelles (Google) ----------------
    Construites côté navigateur : c'est le navigateur du visiteur qui
    les demande à Google, jamais notre serveur. Rien n'est re-hébergé,
@@ -42,8 +42,8 @@ const T = {
   fr: {
     nav1: "Parcours", nav2: "Régions", nav3: "Comment ça marche",
     cta: "Voir les parcours", cta2: "Nous écrire",
-    notice: "<b>Registre en construction.</b> 95 des 120 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.",
-    eyebrow: "120 parcours · 95 réservables en ligne",
+    notice: "<b>Registre en construction.</b> 99 des 120 parcours ont un lien de réservation vérifié à la main. Aucun tarif, aucune note et aucune heure de départ n'est affiché : ces données ne sont pas encore branchées à une vraie source.",
+    eyebrow: "120 parcours · 99 réservables en ligne",
     h1a: "Chaque parcours", h1b: "du Québec.", h1c: "Sur une seule carte.",
     lede: "Où ils sont, dans quelle région, et comment joindre le club. <b>Les départs en direct viendront quand les systèmes de réservation seront branchés — pas avant.</b>",
     go: "Chercher", ph: "Code postal, ville ou parcours",
@@ -71,11 +71,11 @@ const T = {
     steps: [
       ["Chercher", "Code postal (J4B), ville, région ou nom du club. Les résultats se classent par distance réelle depuis le point cherché."],
       ["Situer", "La carte montre où se trouve chaque parcours au Québec. Position approximative : bonne pour se repérer, à confirmer auprès du club."],
-      ["Réserver", "Pour 95 des 120 parcours, un clic ouvre le vrai système de réservation du club — GGGolf ou Chronogolf — dans un nouvel onglet. Pour les autres, la fiche Google du club."]
+      ["Réserver", "Pour 99 des 120 parcours, un clic ouvre le vrai système de réservation du club — GGGolf ou Chronogolf — dans un nouvel onglet. Pour les autres, la fiche Google du club."]
     ],
     roadmap: [
       ["Compléter le registre", "120 parcours sur environ 350. La suite : recouper OpenStreetMap, Google Places et les répertoires de Golf Québec et de l'ACGQ, puis vérifier chaque fiche à la main."],
-      ["Voir les heures ici", "GGGolf (35 parcours) et Chronogolf (32) se partagent le Québec. Se brancher à GGGolf en premier — c'est une entreprise québécoise. Rien ne s'affichera avant que la donnée soit réelle et fraîche."],
+      ["Voir les heures ici", "GGGolf (44 parcours) et Chronogolf (46) se partagent le Québec. Se brancher à GGGolf en premier — c'est une entreprise québécoise. Rien ne s'affichera avant que la donnée soit réelle et fraîche."],
       ["Réserver en un clic", "Une fois les disponibilités connues, le lien mènera directement au bon créneau sur le système du club. Le paiement restera toujours chez le club."]
     ],
     sheetLoc: "Où c'est", sheetActs: "Joindre le club",
@@ -93,8 +93,8 @@ const T = {
   en: {
     nav1: "Courses", nav2: "Regions", nav3: "How it works",
     cta: "Browse courses", cta2: "Get in touch",
-    notice: "<b>Registry under construction.</b> 95 of 120 courses have a hand-verified booking link. No prices, ratings or tee times are shown: that data isn't wired to a real source yet.",
-    eyebrow: "120 courses · 95 bookable online",
+    notice: "<b>Registry under construction.</b> 99 of 120 courses have a hand-verified booking link. No prices, ratings or tee times are shown: that data isn't wired to a real source yet.",
+    eyebrow: "120 courses · 99 bookable online",
     h1a: "Every course", h1b: "in Québec.", h1c: "On one map.",
     lede: "Where they are, which region, and how to reach the club. <b>Live tee times will arrive when the booking systems are connected — not before.</b>",
     go: "Search", ph: "Postal code, town or course",
@@ -122,11 +122,11 @@ const T = {
     steps: [
       ["Search", "Postal code (J4B), town, region or club name. Results rank by real distance from the point you searched."],
       ["Locate", "The map shows where each course sits in Québec. Approximate position: good for orientation, confirm with the club."],
-      ["Book", "For 95 of 120 courses, one click opens the club's real booking system — GGGolf or Chronogolf — in a new tab. For the rest, the club's Google listing."]
+      ["Book", "For 99 of 120 courses, one click opens the club's real booking system — GGGolf or Chronogolf — in a new tab. For the rest, the club's Google listing."]
     ],
     roadmap: [
       ["Finish the registry", "120 courses of roughly 350. Next: reconcile OpenStreetMap, Google Places and the Golf Québec / ACGQ directories, then verify every entry by hand."],
-      ["Show the times here", "GGGolf (35 courses) and Chronogolf (32) split Québec between them. Wire up GGGolf first — it's a Québec company. Nothing shows until the data is real and fresh."],
+      ["Show the times here", "GGGolf (44 courses) and Chronogolf (46) split Québec between them. Wire up GGGolf first — it's a Québec company. Nothing shows until the data is real and fresh."],
       ["One-click booking", "Once availability is known, the link will land on the right slot in the club's own system. Payment always stays with the club."]
     ],
     sheetLoc: "Where it is", sheetActs: "Reach the club",
