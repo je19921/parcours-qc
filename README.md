@@ -11,19 +11,19 @@ golfwebsite/
 │  ├─ config.js          VOTRE CLÉ GOOGLE — pour les vraies photos
 │  ├─ app.js             recherche, filtres, fiches, langue
 │  ├─ art.js             vues aériennes et paysages générés au navigateur
-│  ├─ heromap.js         la carte 2D animée de l'accueil (aucune dépendance)
-│  └─ scene3d.js         rehausse 3D de la même carte, en progressive enhancement
+│  ├─ herodrive.js       l'envolée 3D de l'accueil (balle, terrain, une fois par session)
+│  └─ globe.js           l'explorateur satellite — silhouette réelle du Québec, filtrable
 ├─ data/
 │  └─ courses.js         le registre — le seul fichier à faire grandir
 └─ README.md
 ```
 
 Deux ressources externes : la feuille Google Fonts, et la librairie three.js
-(via CDN, `<script type="importmap">` dans `index.html`) pour la couche 3D de
-l'accueil. Si l'une ou l'autre est bloquée, le site continue de fonctionner —
-`scene3d.js` échoue silencieusement et la carte 2D de `heromap.js` reste seule
-visible. Tout le reste — images de parcours, paysages de région — est dessiné
-dans le navigateur.
+(via CDN, `<script type="importmap">` dans `index.html`) pour les deux couches
+3D. Si l'une ou l'autre est bloquée, ou en cas d'erreur WebGL, chacune échoue
+silencieusement (`try/catch` autour de son initialisation) sans casser le
+reste de la page. Tout le reste — images de parcours, paysages de région —
+est dessiné dans le navigateur.
 
 ---
 

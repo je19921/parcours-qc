@@ -48,6 +48,7 @@ const T = {
     lede: "Où ils sont, dans quelle région, et comment joindre le club. <b>Les départs en direct viendront quand les systèmes de réservation seront branchés — pas avant.</b>",
     go: "Chercher", ph: "Code postal, ville ou parcours",
     m1: "Réservation en ligne vérifiée", m2: "Lien vers le club", cue: "Faites défiler",
+    heroFeature: (c) => `Parcours à l'honneur : <b>${c.name}</b> · ${c.city}`,
     s1: "parcours dans le registre", s2: "régions couvertes",
     s3: "avec réservation en ligne vérifiée", s4: "parcours au Québec — l'objectif",
     eb2: "Le répertoire", h2a: "Trouvez le parcours, <em>joignez le club.</em>",
@@ -98,6 +99,7 @@ const T = {
     lede: "Where they are, which region, and how to reach the club. <b>Live tee times will arrive when the booking systems are connected — not before.</b>",
     go: "Search", ph: "Postal code, town or course",
     m1: "Verified online booking", m2: "Link to the club", cue: "Scroll",
+    heroFeature: (c) => `Featured course: <b>${c.name}</b> · ${c.city}`,
     s1: "courses in the registry", s2: "regions covered",
     s3: "with verified online booking", s4: "courses in Québec — the target",
     eb2: "The directory", h2a: "Find the course, <em>reach the club.</em>",
@@ -459,6 +461,7 @@ function setLang(l) {
   $("q").placeholder = L.ph;
   chips(); renderGrid(); renderRegions(); renderSteps();
   if (S.sel) openSheet(S.sel);
+  if (window.PQ_featuredCourse) $("heroFeature").innerHTML = L.heroFeature(window.PQ_featuredCourse);
   measureNotice();
 }
 $("bfr").onclick = () => setLang("fr");
@@ -584,10 +587,18 @@ chips();
 renderGrid();
 renderRegions();
 renderSteps();
-makeHeroMap($("heroMap"), COURSES, {});
-requestAnimationFrame(() => document.documentElement.classList.add("ready"));
+/* « .ready » déclenche l'entrée du titre — normalement posé par
+   assets/herodrive.js (module) une fois la balle posée, ou tout de
+   suite en répétition de session / mouvement réduit. Ce filet de
+   sécurité l'ajoute quand même si le module échoue à charger, pour
+   que le titre ne reste jamais caché (le vol dure ~3.4 s au premier
+   passage — la marge évite toute course avec le déroulement normal). */
+setTimeout(() => document.documentElement.classList.add("ready"), 6000);
 
 /* la carte 3D (assets/globe.js, module chargé séparément) ouvre la
    même fiche que la liste — un seul point d'entrée, pas de doublon */
 window.PQ_openSheet = openSheet;
+/* assets/herodrive.js pose le parcours à l'honneur ; on lui fournit
+   le texte traduit pour qu'un changement de langue le mette à jour */
+window.PQ_heroFeatureText = (c) => t().heroFeature(c);
 window.PQ_REGIONS = REGIONS;
