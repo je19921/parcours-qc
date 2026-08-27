@@ -176,7 +176,7 @@ function buildScene(renderer) {
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(4, 2);
     return tex;
   }
-  const pinGeo = new THREE.SphereGeometry(0.09, 14, 10);
+  const pinGeo = new THREE.SphereGeometry(0.045, 12, 9);
   const pinMat = new THREE.MeshStandardMaterial({
     color: 0xf7f3e8, emissive: MIST, emissiveIntensity: 0.15, roughness: 0.55, metalness: 0.02,
     bumpMap: dimpleTexture(), bumpScale: 0.01,
@@ -253,7 +253,7 @@ function buildScene(renderer) {
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.8, 0.55, 0.2);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.5, 0.35, 0.3);
   composer.addPass(bloom);
 
   function resize() {
@@ -339,18 +339,55 @@ function buildScene(renderer) {
 
   let downX = 0, downY = 0;
   canvas.addEventListener("pointerdown", (e) => { downX = e.clientX; downY = e.clientY; });
-  canvas.addEventListener("pointerup", (e) => {
-    if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) return;
+  const ray = new THREE.Raycaster();
+  function pickPin(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
-    const ptr = new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
-    const ray = new THREE.Raycaster();
+    const ptr = new THREE.Vector2(((clientX - rect.left) / rect.width) * 2 - 1, -((clientY - rect.top) / rect.height) * 2 + 1);
     ray.setFromCamera(ptr, camera);
     const hits = ray.intersectObject(pins);
-    if (hits.length && hits[0].instanceId != null) {
-      const c = COURSES[hits[0].instanceId];
-      if (c && pinScale[hits[0].instanceId] > 0.5 && window.PQ_openSheet) window.PQ_openSheet(c.slug);
+    return (hits.length && hits[0].instanceId != null && pinScale[hits[0].instanceId] > 0.5) ? hits[0].instanceId : -1;
+  }
+  canvas.addEventListener("pointerup", (e) => {
+    if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) return;
+    const idx = pickPin(e.clientX, e.clientY);
+    const c = idx >= 0 ? COURSES[idx] : null;
+    if (c && window.PQ_openSheet) window.PQ_openSheet(c.slug);
+  });
+
+  /* ---- survol : petite fiche flottante, comme un vrai atlas ---- */
+  const tip = document.getElementById("globeTip");
+  const tipName = tip ? tip.querySelector(".globe-tip-name") : null;
+  const tipCity = tip ? tip.querySelector(".globe-tip-city") : null;
+  let hoveredIdx = -1;
+  function clearHover() {
+    if (hoveredIdx === -1) return;
+    hoveredIdx = -1;
+    canvas.style.cursor = "";
+    if (tip) tip.classList.remove("show");
+  }
+  canvas.addEventListener("pointermove", (e) => {
+    if (e.buttons) { clearHover(); return; } // en train de glisser/pincer — pas de fiche qui gêne le geste
+    const idx = pickPin(e.clientX, e.clientY);
+    if (idx !== hoveredIdx) {
+      hoveredIdx = idx;
+      canvas.style.cursor = idx >= 0 ? "pointer" : "";
+      if (tip) {
+        if (idx >= 0) {
+          const c = COURSES[idx];
+          if (tipName) tipName.textContent = c.name;
+          if (tipCity) tipCity.textContent = c.city;
+          tip.classList.add("show");
+        } else {
+          tip.classList.remove("show");
+        }
+      }
+    }
+    if (idx >= 0 && tip) {
+      const wrapRect = wrap.getBoundingClientRect();
+      tip.style.transform = `translate(${e.clientX - wrapRect.left}px, ${e.clientY - wrapRect.top}px)`;
     }
   });
+  canvas.addEventListener("pointerleave", clearHover);
 
   let started = false;
   function frame(now) {
