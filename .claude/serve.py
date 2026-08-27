@@ -1,5 +1,4 @@
 import http.server
-import socketserver
 
 FORCE = {".js": "application/javascript", ".mjs": "application/javascript", ".css": "text/css"}
 
@@ -15,5 +14,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
 if __name__ == "__main__":
-    with socketserver.TCPServer(("", 5500), Handler) as httpd:
+    # ThreadingHTTPServer, not plain TCPServer: the single-threaded version
+    # blocks on any kept-alive connection (normal HTTP/1.1 browser behavior),
+    # so it serves a handful of requests fine then silently stops accepting
+    # new ones until that connection times out. Threading avoids the
+    # head-of-line block entirely.
+    with http.server.ThreadingHTTPServer(("", 5500), Handler) as httpd:
+        httpd.daemon_threads = True
         httpd.serve_forever()

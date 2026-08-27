@@ -601,4 +601,8 @@ window.PQ_openSheet = openSheet;
 /* assets/herodrive.js pose le parcours à l'honneur ; on lui fournit
    le texte traduit pour qu'un changement de langue le mette à jour */
 window.PQ_heroFeatureText = (c) => t().heroFeature(c);
+/* assets/globe.js peut s'initialiser avant ou après un premier clic de
+   filtre — il lit l'état courant directement plutôt que d'attendre le
+   prochain appel de window.PQ_onFilterChange */
+window.PQ_currentFilter = () => ({ list: list(), region: S.region });
 window.PQ_REGIONS = REGIONS;
