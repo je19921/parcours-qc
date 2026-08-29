@@ -7,20 +7,36 @@
 <meta name="description" content="Le répertoire des terrains de golf du Québec sur une seule carte. 120 parcours, dont 99 réservables en ligne. En route vers les ~350 de la province.">
 <meta name="theme-color" content="#060D0A">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23060D0A'/%3E%3Ccircle cx='16' cy='19' r='3' fill='%23E8B558'/%3E%3Cpath d='M15 19V7l8 3-8 3' stroke='%23E9EFE6' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="manifest" href="manifest.json">
 
-<!-- Aperçu social. Remplacez og:image par une vraie capture 1200x630 hébergée
-     chez vous : les aperçus de liens n'exécutent jamais de JavaScript, donc
-     cette image-là ne peut pas être générée comme le reste du site. -->
+<!-- Aperçu social : image de marque statique (assets/og-image.png), générée
+     une fois dans le même style que le site — les aperçus de liens
+     n'exécutent jamais de JavaScript, donc rien de ceci ne peut être
+     produit à la volée comme le reste de la page. og:image est ici en
+     chemin relatif ; une URL absolue est préférable une fois le domaine
+     de production connu (Netlify attribue l'URL au déploiement). -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Parcours Québec">
 <meta property="og:description" content="Chaque parcours du Québec, sur une seule carte.">
 <meta property="og:locale" content="fr_CA">
+<meta property="og:image" content="assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Parcours Québec — 120 parcours, 99 réservables en ligne">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="assets/og-image.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..900,0..100,0..1;1,9..144,400..900,0..100,0..1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/styles.css">
+
+<!-- Carte interactive de la section « explorateur » : Leaflet + tuiles
+     OpenStreetMap réelles (via CARTO, thème sombre, gratuit avec
+     attribution). Progressive : si le CDN est bloqué, la section
+     échoue silencieusement et le reste du site fonctionne normalement. -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <!-- Rehausse 3D de la carte d'accueil (progressive : si le CDN est bloqué
      ou que le visiteur préfère moins d'animation, la carte 2D reste seule
@@ -121,24 +137,17 @@
   </div>
 </section>
 
-<section class="blk globe-sect" id="explorer">
+<section class="blk map-sect" id="explorer">
   <div class="wrap">
     <div class="head reveal">
-      <p class="eyebrow" data-i="ebG">Vue satellite</p>
-      <h2 data-i="h2g">De l'espace <em>jusqu'au vert.</em></h2>
-      <p class="sect-lede" data-i="lg">La Terre, vue de vraies images satellite — puis le Québec. Glissez pour tourner, molette ou pincez pour zoomer. Chaque point est un parcours du registre, et suit le même filtre que la liste.</p>
+      <p class="eyebrow" data-i="ebG">Carte interactive</p>
+      <h2 data-i="h2g">Chaque parcours, <em>sur de vraies routes.</em></h2>
+      <p class="sect-lede" data-i="lg">Une vraie carte du Québec — rues, villes, distances réelles — pas une illustration. Glissez pour explorer une région, zoomez pour voir un parcours de près. Suit le même filtre que la liste ci-dessus.</p>
     </div>
-    <div class="tools reveal" id="globeTools"></div>
-    <div class="globe-wrap reveal">
-      <canvas id="globeCanvas" aria-label="Carte satellite interactive des parcours de golf du Québec"></canvas>
-      <div class="globe-loading" id="globeLoading" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="globe-hint" id="globeHint" data-i="ghint">Glissez pour tourner · molette pour zoomer</div>
-      <div class="globe-tip" id="globeTip" aria-hidden="true">
-        <div class="globe-tip-card">
-          <b class="globe-tip-name"></b>
-          <span class="globe-tip-city"></span>
-        </div>
-      </div>
+    <div class="tools reveal" id="mapTools"></div>
+    <div class="map-wrap reveal">
+      <div id="leafletMap" aria-label="Carte interactive des parcours de golf du Québec"></div>
+      <div class="map-hint" id="mapHint" data-i="mhint">Glissez pour déplacer · molette pour zoomer</div>
     </div>
   </div>
 </section>
@@ -204,7 +213,9 @@
 <script src="data/courses.js"></script>
 <script src="assets/art.js"></script>
 <script src="assets/app.js"></script>
+<script src="assets/cursor.js"></script>
 <script type="module" src="assets/herodrive.js"></script>
-<script type="module" src="assets/globe.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/mapview.js"></script>
 </body>
 </html>

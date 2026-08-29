@@ -54,9 +54,9 @@ const T = {
     eb2: "Le répertoire", h2a: "Trouvez le parcours, <em>joignez le club.</em>",
     l2: "Cherchez par code postal, ville, région ou nom. Quand le club réserve en ligne, le bouton mène directement à son vrai système — GGGolf ou Chronogolf — dans un nouvel onglet.",
     more: "Voir plus de parcours",
-    ebG: "Vue satellite", h2g: "De l'espace <em>jusqu'au vert.</em>",
-    lg: "La Terre, vue de vraies images satellite — puis le Québec. Glissez pour tourner, molette ou pincez pour zoomer. Chaque point est un parcours du registre, et suit le même filtre que la liste.",
-    ghint: "Glissez pour tourner · molette pour zoomer",
+    ebG: "Carte interactive", h2g: "Chaque parcours, <em>sur de vraies routes.</em>",
+    lg: "Une vraie carte du Québec — rues, villes, distances réelles — pas une illustration. Glissez pour explorer une région, zoomez pour voir un parcours de près. Suit le même filtre que la liste ci-dessus.",
+    mhint: "Glissez pour déplacer · molette pour zoomer",
     eb3: "Par région", h2b: "Du Vieux-Montréal <em>jusqu'à la Gaspésie.</em>",
     l3: "Le golf québécois ne s'arrête pas à la couronne nord. Choisissez une région pour filtrer le répertoire.",
     eb4: "Ce que le site fait aujourd'hui", h2c: "Trois choses. <em>Elles fonctionnent.</em>",
@@ -105,9 +105,9 @@ const T = {
     eb2: "The directory", h2a: "Find the course, <em>reach the club.</em>",
     l2: "Search by postal code, town, region or name. Where the club books online, the button goes straight to its real system — GGGolf or Chronogolf — in a new tab.",
     more: "Show more courses",
-    ebG: "Satellite view", h2g: "From orbit <em>to the fairway.</em>",
-    lg: "The Earth, in real satellite imagery — then Québec. Drag to rotate, scroll or pinch to zoom. Every point is a course in the registry, following the same filter as the list.",
-    ghint: "Drag to rotate · scroll to zoom",
+    ebG: "Interactive map", h2g: "Every course, <em>on real roads.</em>",
+    lg: "A real map of Québec — streets, towns, real distances — not an illustration. Drag to explore a region, zoom in to see a course up close. Follows the same filter as the list above.",
+    mhint: "Drag to pan · scroll to zoom",
     eb3: "By region", h2b: "From Old Montréal <em>to the Gaspé.</em>",
     l3: "Québec golf doesn't stop at the north shore. Pick a region to filter the directory.",
     eb4: "What the site does today", h2c: "Three things. <em>They work.</em>",
@@ -219,8 +219,8 @@ function chips() {
       `<button class="chip" data-r="${r}" aria-pressed="${S.region === r}">${r}</button>`));
   $("tools").innerHTML = items.join("") +
     `<span class="toolspace"></span><span class="rescount" id="rescount"></span>`;
-  /* même bouton, même état — la carte 3D lit S.region exactement comme la liste */
-  const gt = $("globeTools");
+  /* même bouton, même état — la carte lit S.region exactement comme la liste */
+  const gt = $("mapTools");
   if (gt) gt.innerHTML = items.join("");
 }
 
@@ -257,8 +257,8 @@ function renderGrid() {
   if (rc) rc.textContent = L.count(all.length) + (S.originLabel ? " · " + S.originLabel : "");
   $("moreBtn").style.display = all.length > S.shown ? "" : "none";
   hydrate($("grid"));
-  /* la carte 3D (assets/globe.js) écoute ce hook pour rester en phase
-     avec le même filtre — un seul état, deux vues */
+  /* la carte interactive (assets/mapview.js) écoute ce hook pour rester
+     en phase avec le même filtre — un seul état, deux vues */
   if (window.PQ_onFilterChange) window.PQ_onFilterChange(all, S.region);
 }
 
@@ -313,7 +313,23 @@ function renderSteps() {
 function openSheet(slug) {
   const c = COURSES.find((x) => x.slug === slug);
   if (!c) return;
-  S.sel = slug;
+  /* traversée native : la photo de la vignette grandit jusqu'à devenir
+     celle du panneau au lieu d'apparaître d'un coup. Dégradation propre
+     si le navigateur ne la supporte pas ou si le visiteur préfère moins
+     de mouvement — le panneau s'ouvre alors comme avant. */
+  if (document.startViewTransition && !reduce) {
+    const oldHero = document.querySelector("#sheet .shero img");
+    if (oldHero) oldHero.style.viewTransitionName = "";
+    const cardImg = document.querySelector(`.tile[data-slug="${CSS.escape(slug)}"] .shot img`);
+    if (cardImg) cardImg.style.viewTransitionName = "sheet-photo";
+    const vt = document.startViewTransition(() => _renderSheet(c));
+    vt.finished.finally(() => { if (cardImg) cardImg.style.viewTransitionName = ""; });
+  } else {
+    _renderSheet(c);
+  }
+}
+function _renderSheet(c) {
+  S.sel = c.slug;
   const L = t();
   const d = S.origin ? haversine(S.origin[0], S.origin[1], c.lat, c.lng) : null;
   const act = (url, label, sub, primary) =>
@@ -335,7 +351,7 @@ function openSheet(slug) {
       : `<div class="pending"><b>${L.pendingT}</b><p>${L.pendingP}</p></div>`;
   $("sheet").innerHTML = `
     <div class="shero">
-      <img ${hasPhotos()
+      <img style="view-transition-name:sheet-photo" ${hasPhotos()
         ? `src="${satUrl(c, 560, 315)}" data-fallback="${c.id}" data-w="560" data-h="315"`
         : `src="${aerial(c, 560, 315)}"`} alt="">
       <span class="shotnote">${hasPhotos() ? L.sat : L.illus}</span>
@@ -411,7 +427,7 @@ function onRegionChipClick(e) {
   chips(); renderGrid();
 }
 $("tools").addEventListener("click", onRegionChipClick);
-$("globeTools").addEventListener("click", onRegionChipClick);
+$("mapTools").addEventListener("click", onRegionChipClick);
 
 $("moreBtn").addEventListener("click", () => { S.shown += 9; renderGrid(); });
 $("scrim").addEventListener("click", closeSheet);
@@ -449,6 +465,18 @@ $("contactBtn").addEventListener("click", (e) => {
 
 /* ------------------------------ langue ------------------------------ */
 function setLang(l) {
+  /* traversée native (View Transitions) : un fondu croisé propre entre les
+     deux langues au lieu d'un remplacement de texte instantané. Se dégrade
+     sans un bruit si le navigateur ne la supporte pas, ou si le visiteur
+     préfère moins de mouvement. */
+  const apply = () => _applyLang(l);
+  if (document.startViewTransition && !reduce) {
+    document.startViewTransition(apply);
+  } else {
+    apply();
+  }
+}
+function _applyLang(l) {
   LANG = l;
   const L = t();
   document.documentElement.lang = l === "fr" ? "fr" : "en";
@@ -595,13 +623,13 @@ renderSteps();
    passage — la marge évite toute course avec le déroulement normal). */
 setTimeout(() => document.documentElement.classList.add("ready"), 6000);
 
-/* la carte 3D (assets/globe.js, module chargé séparément) ouvre la
-   même fiche que la liste — un seul point d'entrée, pas de doublon */
+/* la carte interactive (assets/mapview.js, script chargé séparément)
+   ouvre la même fiche que la liste — un seul point d'entrée, pas de doublon */
 window.PQ_openSheet = openSheet;
 /* assets/herodrive.js pose le parcours à l'honneur ; on lui fournit
    le texte traduit pour qu'un changement de langue le mette à jour */
 window.PQ_heroFeatureText = (c) => t().heroFeature(c);
-/* assets/globe.js peut s'initialiser avant ou après un premier clic de
+/* assets/mapview.js peut s'initialiser avant ou après un premier clic de
    filtre — il lit l'état courant directement plutôt que d'attendre le
    prochain appel de window.PQ_onFilterChange */
 window.PQ_currentFilter = () => ({ list: list(), region: S.region });
