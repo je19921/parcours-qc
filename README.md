@@ -12,18 +12,22 @@ golfwebsite/
 │  ├─ app.js             recherche, filtres, fiches, langue
 │  ├─ art.js             vues aériennes et paysages générés au navigateur
 │  ├─ herodrive.js       l'envolée 3D de l'accueil (balle, terrain, une fois par session)
-│  └─ globe.js           l'explorateur satellite — silhouette réelle du Québec, filtrable
+│  ├─ cursor.js          curseur golf + attraction magnétique (souris fine seulement)
+│  └─ mapview.js         la carte interactive — Leaflet + vraies tuiles OpenStreetMap, filtrable
 ├─ data/
 │  └─ courses.js         le registre — le seul fichier à faire grandir
 └─ README.md
 ```
 
-Deux ressources externes : la feuille Google Fonts, et la librairie three.js
-(via CDN, `<script type="importmap">` dans `index.html`) pour les deux couches
-3D. Si l'une ou l'autre est bloquée, ou en cas d'erreur WebGL, chacune échoue
-silencieusement (`try/catch` autour de son initialisation) sans casser le
-reste de la page. Tout le reste — images de parcours, paysages de région —
-est dessiné dans le navigateur.
+Trois ressources externes : la feuille Google Fonts, la librairie three.js
+(via CDN, `<script type="importmap">` dans `index.html`) pour l'envolée 3D de
+l'accueil, et Leaflet (CSS + JS, aussi via CDN) pour la carte interactive —
+tuiles OpenStreetMap réelles, thème sombre CARTO « Dark Matter » pour rester
+dans l'esthétique du site. Si l'une de ces ressources est bloquée, ou en cas
+d'erreur WebGL, chacune échoue silencieusement (`try/catch` ou simple test
+`typeof` autour de son initialisation) sans casser le reste de la page. Tout
+le reste — images de parcours, paysages de région — est dessiné dans le
+navigateur.
 
 ---
 
