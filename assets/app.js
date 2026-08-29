@@ -35,6 +35,28 @@ function streetUrl(c, w, h) {
   });
   return "https://maps.googleapis.com/maps/api/streetview?" + p;
 }
+/* Vue réelle de toute une région — pas une seule ville : « visible »
+   demande à Google de cadrer automatiquement pour que chaque parcours
+   de la région tienne dans l'image, sans qu'on ait à calculer le zoom
+   à la main. Un style sombre maison plutôt que le roadmap Google par
+   défaut, pour rester dans l'esthétique du site (mêmes teintes que la
+   carte interactive) et pour un fond propre : aucun label, aucun POI. */
+function regionUrl(name, w, h) {
+  const pts = COURSES.filter((c) => c.region === name).map((c) => c.lat.toFixed(4) + "," + c.lng.toFixed(4));
+  const p = new URLSearchParams({ size: w + "x" + h, scale: "2", maptype: "roadmap", format: "jpg", key: CFG.googleMapsKey });
+  pts.forEach((pt) => p.append("visible", pt));
+  [
+    "element:geometry|color:0x101c15",
+    "element:labels|visibility:off",
+    "feature:water|element:geometry|color:0x0e2a30",
+    "feature:road|element:geometry|color:0x27392c",
+    "feature:road|element:geometry.stroke|visibility:off",
+    "feature:poi|visibility:off",
+    "feature:transit|visibility:off",
+    "feature:administrative|element:geometry|visibility:off",
+  ].forEach((s) => p.append("style", s));
+  return "https://maps.googleapis.com/maps/api/staticmap?" + p;
+}
 const norm = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
 /* ---------------------------- textes ---------------------------- */
@@ -277,13 +299,18 @@ const artObs = new IntersectionObserver((es) => {
    on repasse à l'illustration au lieu d'afficher un cadre cassé. */
 document.addEventListener("error", (e) => {
   const el = e.target;
-  if (el.tagName !== "IMG" || !el.dataset.fallback || el.dataset.failed) return;
-  el.dataset.failed = "1";
-  const c = COURSES.find((x) => x.id === +el.dataset.fallback);
-  if (c) el.src = aerial(c, +el.dataset.w, +el.dataset.h);
-  const note = el.parentElement && el.parentElement.querySelector(".shotnote");
-  if (note && note.classList.contains("icon")) { note.title = t().illus; note.setAttribute("aria-label", t().illus); }
-  else if (note) note.textContent = t().illus;
+  if (el.tagName !== "IMG" || el.dataset.failed) return;
+  if (el.dataset.fallback) {
+    el.dataset.failed = "1";
+    const c = COURSES.find((x) => x.id === +el.dataset.fallback);
+    if (c) el.src = aerial(c, +el.dataset.w, +el.dataset.h);
+    const note = el.parentElement && el.parentElement.querySelector(".shotnote");
+    if (note && note.classList.contains("icon")) { note.title = t().illus; note.setAttribute("aria-label", t().illus); }
+    else if (note) note.textContent = t().illus;
+  } else if (el.dataset.fallbackRegion) {
+    el.dataset.failed = "1";
+    el.src = region(+el.dataset.fallbackRegion, +el.dataset.w, +el.dataset.h);
+  }
 }, true);
 
 function hydrate(scope) {
@@ -297,7 +324,9 @@ function renderRegions() {
   const word = LANG === "fr" ? "parcours" : "courses";
   $("regionGrid").innerHTML = top.map(([name, n], i) =>
     `<button class="rcard" data-region-name="${name}">
-       <img data-region="${i + 3}" data-w="330" data-h="412" alt="" loading="lazy">
+       <img ${hasPhotos()
+         ? `src="${regionUrl(name, 330, 412)}" data-fallback-region="${i + 3}" data-w="330" data-h="412"`
+         : `data-region="${i + 3}" data-w="330" data-h="412"`} alt="" loading="lazy" decoding="async">
        <span class="rlab"><b>${name}</b><span>${n} ${word}</span></span>
      </button>`).join("");
   hydrate($("regionGrid"));
@@ -458,8 +487,7 @@ $("goBtn").addEventListener("click", () => {
 
 $("contactBtn").addEventListener("click", (e) => {
   e.preventDefault();
-  // Remplacez par votre vraie adresse avant la mise en ligne.
-  location.href = "mailto:bonjour@example.com?subject=" +
+  location.href = "mailto:parcoursqcadmin@gmail.com?subject=" +
     encodeURIComponent(LANG === "fr" ? "Correction au registre Parcours Québec" : "Parcours Québec registry correction");
 });
 

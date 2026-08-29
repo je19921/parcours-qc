@@ -159,10 +159,11 @@ et en `en`. Le HTML porte des attributs `data-i` qui pointent vers ces clés.
 **Changer les couleurs** — `assets/styles.css`, bloc `:root` en haut.
 `--dawn` est l'or, `--night` le fond, `--mist` le texte.
 
-**Avant la mise en ligne** — remplacez `bonjour@example.com` dans
-`assets/app.js` (bouton « Nous écrire ») et ajoutez une vraie image
-`og.jpg` (1200×630) référencée dans `index.html`. Les aperçus de liens
-n'exécutent pas de JavaScript : cette image-là ne peut pas être générée.
+**Contact** — le bouton « Nous écrire » (`assets/app.js`) envoie à
+`parcoursqcadmin@gmail.com`. L'image de partage social (`assets/og-image.png`,
+1200×630) et l'icône du site sont déjà en place, référencées dans
+`index.html` — les aperçus de liens n'exécutant pas de JavaScript, elles
+ne peuvent pas être générées à la volée comme le reste de la page.
 
 ---
 

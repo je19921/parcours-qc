@@ -47,12 +47,11 @@ a{color:inherit;text-decoration:none}
    mouvement réduit — ces règles ne s'activent donc que quand c'est
    vraiment pertinent (souris fine, sur ordinateur). */
 html.pq-cursor-on,html.pq-cursor-on *{cursor:none!important}
-html.pq-cursor-on .map-wrap,html.pq-cursor-on .map-wrap *{cursor:inherit!important}
 .pq-cursor{
-  position:fixed;top:0;left:0;z-index:200;pointer-events:none;width:0;height:0;
+  position:fixed;top:0;left:0;z-index:1200;pointer-events:none;width:0;height:0;
   will-change:transform;opacity:1;transition:opacity .25s var(--ease);
 }
-.pq-cursor.out,.pq-cursor.suppressed{opacity:0}
+.pq-cursor.out{opacity:0}
 .pq-cursor-ball{
   position:absolute;top:-6px;left:-6px;width:12px;height:12px;border-radius:50%;
   background:radial-gradient(circle at 32% 28%,#fff,#E9EFE6 45%,#9FAFA5 85%);

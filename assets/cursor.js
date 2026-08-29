@@ -18,8 +18,7 @@
   document.body.appendChild(cur);
   document.documentElement.classList.add("pq-cursor-on");
 
-  const HOVER_SEL = "a, button, input, .tile, .rcard, .chip, .lang button";
-  const DRAG_SEL = ".map-wrap, .map-wrap *";
+  const HOVER_SEL = "a, button, input, .tile, .rcard, .chip, .lang button, .leaflet-marker-icon, .leaflet-interactive";
   /* boutons dorés/pleins uniquement : ils ont déjà un translateY(-2px)
      au survol en CSS, remplacé ici par l'équivalent en JS (même valeur
      de base) pour ne pas se faire écraser par le style en ligne. */
@@ -38,7 +37,6 @@
     /* e.target n'est pas toujours un Element (ex. survole le bord de la
        page) : closest peut être absent, jamais supposer qu'il existe. */
     const t = e.target && e.target.closest ? e.target : null;
-    cur.classList.toggle("suppressed", !!(t && t.closest(DRAG_SEL)));
 
     const m = t ? t.closest(MAGNETIC_SEL) : null;
     if (m !== magTarget) { releaseMagnet(); magTarget = m; }
