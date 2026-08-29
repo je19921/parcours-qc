@@ -33,7 +33,13 @@
       worldCopyJump: false,
     });
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    /* la clé CARTO (assets/config.js) retire le filigrane « API key
+       required » des tuiles ; sans clé, la carte reste utilisable —
+       juste avec ce filigrane. */
+    const cartoKey = (window.PQ_CONFIG && window.PQ_CONFIG.cartoKey) || "";
+    const tileUrl = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+      + (cartoKey ? "?key=" + encodeURIComponent(cartoKey) : "");
+    L.tileLayer(tileUrl, {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 20,

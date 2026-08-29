@@ -21,8 +21,14 @@
    Cette clé est publique par nature (elle part dans le navigateur).
    C'est la restriction par référent qui la protège, pas le secret.
    Mettez une alerte de budget avant tout le reste.
+
+   CARTO BASEMAPS (carte interactive de la section « explorateur »)
+   Clé obtenue sur carto.com — retire le filigrane « API key required »
+   des tuiles. Sans clé, la carte fonctionne quand même (tuiles avec
+   filigrane) ; rien ne casse.
    ============================================================ */
 window.PQ_CONFIG = {
   googleMapsKey: "AIzaSyD-rUw5iGwISt6OiZu0ONE2pj8W6TYWosQ",   // <-- votre clé ici
-  satelliteZoom: 15    // 14 = plus large, 16 = plus serré
+  satelliteZoom: 15,    // 14 = plus large, 16 = plus serré
+  cartoKey: "cb1_2jig_1_508a1d204932c0238222cda8"    // <-- votre clé CARTO ici
 };
